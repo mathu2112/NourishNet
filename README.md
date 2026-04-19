@@ -3,8 +3,8 @@ NourishNet is an AI-based food redistribution platform that enables restaurants 
 
 Key Features:
 
---Real-time surplus food logging with food type, portion size, and expiry time
---AI-based matching system that recommends the best recipient based on quantity, food type, and urgency.
---Donation confirmation with live status tracking.
---Impact dashboard showing meals saved, CO₂ avoided, and points earned.
---Gamification system with donation streaks, badges, and a city leaderboard.
+- Real-time surplus food logging with food type, portion size, and expiry time.
+- AI-based matching system that recommends the best recipient based on quantity, food type, and urgency.
+- Donation confirmation with live status tracking.
+- Impact dashboard showing meals saved, CO₂ avoided, and points earned.
+- Gamification system with donation streaks, badges, and a city leaderboard.
