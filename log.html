@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Log Surplus - NourishNet</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #F7F5F0;
+}
+
+/* CARD */
+.card {
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+}
+.card:hover {
+  transform: translateY(-6px);
+  border: 1px solid #10b981;
+  box-shadow: 0 20px 30px rgba(0,0,0,0.08);
+}
+
+/* ACTIVE MATCH */
+.active-match {
+  border: 2px solid #10b981 !important;
+  box-shadow: 0 10px 25px rgba(16,185,129,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="flex justify-between items-center px-10 py-5 bg-emerald-600 text-white">
+  <a href="dashboard.html" class="text-2xl font-extrabold">NourishNet</a>
+
+  <div class="hidden md:flex gap-10 font-medium items-center text-lg">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="#">Impact</a>
+    <a href="#">Leaderboard</a>
+    <a href="index.html" class="bg-white text-emerald-600 px-4 py-1 rounded-full font-semibold">Logout</a>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<section class="px-10 py-10">
+  <h1 class="text-4xl font-extrabold">Log Surplus Food</h1>
+  <p class="text-gray-600 mt-2 text-lg">
+    Enter your surplus details and let AI intelligently route your donation
+  </p>
+</section>
+
+<!-- CONTENT -->
+<section class="px-10 space-y-8">
+
+  <!-- INPUT -->
+  <div class="card bg-white p-8 rounded-xl">
+
+    <h2 class="text-2xl font-bold mb-6">Food Details</h2>
+
+    <label class="font-semibold text-lg">Food Type</label>
+    <select class="w-full mt-2 mb-5 p-3 border rounded-lg">
+      <option>Halal Cooked</option>
+      <option>Baked Goods</option>
+      <option>Raw Ingredients</option>
+      <option>Packaged Food</option>
+      <option>Vegetarian/Vegan</option>
+    </select>
+
+    <label class="font-semibold text-lg">
+      Portions: <span id="portionValue">50</span>
+    </label>
+    <input type="range" min="1" max="250" value="50" id="portions" class="w-full mt-2 mb-5">
+
+    <label class="font-semibold text-lg">Expiry Window</label>
+    <select id="expiry" class="w-full mt-2 p-3 border rounded-lg">
+      <option>Less than 6 hours</option>
+      <option>Within 24 hours</option>
+      <option>More than 24 hours</option>
+    </select>
+
+  </div>
+
+  <!-- AI OUTPUT -->
+  <div class="card bg-white p-8 rounded-xl">
+
+    <h2 class="text-2xl font-bold">AI Recommendation</h2>
+
+    <p id="aiText" class="mt-4 text-gray-700 text-lg leading-relaxed">
+      Adjust inputs to see recommendation...
+    </p>
+
+  </div>
+
+  <!-- RECIPIENTS (UNCHANGED) -->
+  <div class="card bg-white p-8 rounded-xl">
+
+    <h2 class="text-2xl font-bold mb-4">Matched Recipients</h2>
+
+    <div class="space-y-4">
+
+      <div id="elderly" class="card p-5 rounded-lg hidden">
+        <p class="font-semibold text-lg">📍 Al Rahma Elderly Home</p>
+        <p class="text-gray-600 text-sm mt-1">
+          2.1 km • Capacity: 80 • Halal Friendly
+        </p>
+      </div>
+
+      <div id="refugee" class="card p-5 rounded-lg hidden">
+        <p class="font-semibold text-lg">📍 Hope Refugee Center</p>
+        <p class="text-gray-600 text-sm mt-1">
+          4.5 km • Capacity: 150 • Mixed Distribution
+        </p>
+      </div>
+
+      <div id="foodbank" class="card p-5 rounded-lg hidden">
+        <p class="font-semibold text-lg">📍 Dubai Food Bank</p>
+        <p class="text-gray-600 text-sm mt-1">
+          6.2 km • Large Scale • Accepts All Types
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- BUTTON -->
+<section class="flex justify-center mt-12 mb-10">
+  <button id="confirmBtn"
+    class="bg-emerald-600 text-white px-12 py-4 rounded-full font-semibold text-lg hover:scale-105 transition shadow-lg">
+    Confirm Donation
+  </button>
+</section>
+
+  <footer class="bg-emerald-600 text-white py-14 mt-20">
+
+  <div class="w-full px-10 text-left">
+
+    <!-- BRAND -->
+    <div class="mb-10">
+      <h2 class="text-2xl font-extrabold">NourishNet</h2>
+      <p class="text-white/80 mt-2">
+        AI-powered food surplus redistribution for a zero-waste UAE.
+      </p>
+    </div>
+
+    <!-- SECTIONS -->
+    <div class="space-y-10 text-white/90">
+
+      <!-- PLATFORM -->
+      <div>
+        <p class="font-extrabold mb-3">Platform</p>
+        <div class="space-y-1 text-white/80">
+          <p>Dashboard</p>
+          <p>Impact</p>
+          <p>Leaderboard</p>
+        </div>
+      </div>
+
+      <!-- LEARN -->
+      <div>
+        <p class="font-extrabold mb-3">Learn</p>
+        <div class="space-y-1 text-white/80">
+          <p>About</p>
+          <p>How it works</p>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div>
+        <p class="font-extrabold mb-3">Contact</p>
+        <div class="space-y-1 text-white/80">
+          <p>hello@nourishnet.ae</p>
+          <p>Dubai, UAE</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COPYRIGHT -->
+    <div class="pt-8 mt-10 border-t border-white/20 text-white/80 text-sm">
+      © 2026 NourishNet. All rights reserved.
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- SCRIPT (UNCHANGED LOGIC + ADD STORAGE ONLY) -->
+<script>
+const portions = document.getElementById("portions");
+const expiry = document.getElementById("expiry");
+const aiText = document.getElementById("aiText");
+const portionValue = document.getElementById("portionValue");
+
+const elderly = document.getElementById("elderly");
+const refugee = document.getElementById("refugee");
+const foodbank = document.getElementById("foodbank");
+
+function updateAI() {
+  let p = parseInt(portions.value);
+  let e = expiry.value;
+
+  portionValue.innerText = p;
+
+  elderly.classList.add("hidden");
+  refugee.classList.add("hidden");
+  foodbank.classList.add("hidden");
+
+  let recipient = "";
+  let showCard = null;
+
+  if (p <= 80) {
+    recipient = "Al Rahma Elderly Home";
+    showCard = elderly;
+  } else if (p <= 150) {
+    recipient = "Hope Refugee Center";
+    showCard = refugee;
+  } else {
+    recipient = "Dubai Food Bank";
+    showCard = foodbank;
+  }
+
+  if (showCard) {
+    showCard.classList.remove("hidden");
+    showCard.classList.add("active-match");
+  }
+
+  aiText.innerHTML = `<b>Recommended:</b> ${recipient}`;
+}
+
+portions.addEventListener("input", updateAI);
+expiry.addEventListener("change", updateAI);
+updateAI();
+
+// ✅ ONLY CHANGE: STORE DATA BEFORE NAVIGATE
+document.getElementById("confirmBtn").addEventListener("click", function () {
+
+  const data = {
+    foodType: document.querySelector("select").value,
+    portions: portions.value,
+    expiry: expiry.value
+  };
+
+  localStorage.setItem("donationData", JSON.stringify(data));
+
+  window.location.href = "confirmation.html";
+});
+</script>
+
+</body>
+</html>
