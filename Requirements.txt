@@ -1,4 +1,4 @@
 gradio
 groq
-geopy
-folium
+flask
+flask-cors
