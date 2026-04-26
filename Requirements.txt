@@ -1,4 +1,0 @@
-gradio
-groq
-flask
-flask-cors
