@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Donation confirmed</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="supabase.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #F7F5F0;
+}
+
+/* TIMELINE */
+.timeline {
+  position: relative;
+  padding-left: 32px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #e5e7eb;
+}
+
+/* STEP */
+.step {
+  position: relative;
+  margin-bottom: 26px;
+  opacity: 0.35;
+  transition: 0.4s ease;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+/* DOTS */
+.step::before {
+  content: "";
+  position: absolute;
+  left: -26px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #d1d5db;
+  border: 2px solid white;
+}
+
+.step.active::before {
+  background: #10b981;
+  box-shadow: 0 0 0 4px rgba(16,185,129,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<nav class="flex justify-between items-center px-10 py-5 bg-emerald-600 text-white sticky top-0">
+  <a href="index.html" class="text-2xl font-extrabold">NourishNet</a>
+
+  <div class="hidden md:flex gap-10 font-medium">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="#">Impact</a>
+    <a href="#">Leaderboard</a>
+  </div>
+
+  <a href="index.html" class="bg-white text-emerald-600 px-5 py-2 rounded-full font-semibold">
+    Logout
+  </a>
+</nav>
+
+<!-- TITLE -->
+<div class="text-center mt-12">
+
+  <h1 class="text-3xl font-bold">Donation confirmed!</h1>
+
+  <p id="summaryText" class="text-gray-600 mt-2">
+    Loading donation details...
+  </p>
+
+</div>
+
+<!-- TRACKING -->
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-xl mt-10 shadow-sm">
+
+  <h2 class="font-bold text-xl mb-6">Live Tracking</h2>
+
+  <div class="timeline">
+
+    <div id="s1" class="step">Surplus logged</div>
+    <div id="s2" class="step">AI matched</div>
+
+    <div id="s3" class="step">
+      Volunteer en route
+      <p id="volunteerText" class="text-sm text-gray-500 mt-1"></p>
+    </div>
+
+    <div id="s4" class="step">Out for delivery</div>
+
+  </div>
+</div>
+
+<!-- POINTS (UNCHANGED) -->
+<div class="max-w-2xl mx-auto mt-6 bg-emerald-600 text-white p-6 rounded-2xl flex justify-between items-center">
+
+  <div>
+    <p class="text-sm opacity-90">Points earned</p>
+    <p class="text-3xl font-bold">+45</p>
+    <p class="text-sm opacity-90">1 point per portion</p>
+  </div>
+
+  <div class="bg-emerald-500 px-4 py-3 rounded-xl text-sm">
+    <p class="font-semibold">13 day streak!</p>
+    <p>1 more for "Fortnight Hero"</p>
+  </div>
+
+</div>
+
+<!-- BACK -->
+<div class="text-center mt-8">
+  <button onclick="window.location.href='dashboard.html'"
+    class="bg-white border px-6 py-3 rounded-full font-semibold hover:scale-105 transition">
+    ← Back to dashboard
+  </button>
+</div>
+
+<div id="footer"></div>
+
+<script>
+fetch("footer.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+  });
+</script>
+
+<script>
+
+const data = JSON.parse(localStorage.getItem("donationData"));
+
+const summaryText = document.getElementById("summaryText");
+const volunteerText = document.getElementById("volunteerText");
+
+const s1 = document.getElementById("s1");
+const s2 = document.getElementById("s2");
+const s3 = document.getElementById("s3");
+
+if (data && data.accepted && data.accepted.length > 0) {
+
+  const ngos = data.accepted.map(a => a.recipient).join(", ");
+
+  /* CHANGED: use foodName if typed, else fallback to foodType */
+  const label = (data.foodName && data.foodName.trim() !== "")
+    ? data.foodName
+    : data.foodType;
+
+  summaryText.innerText =
+    `${data.portions} portions of ${label} → ${ngos}`;
+
+  let eta = "15–25 min";
+  if (data.portions <= 50) eta = "10–15 min";
+  else if (data.portions <= 120) eta = "15–25 min";
+  else eta = "25–40 min";
+
+  volunteerText.innerText =
+    `Volunteer Ahmed assigned • ETA ${eta}`;
+
+  setTimeout(() => s1.classList.add("active"), 400);
+  setTimeout(() => s2.classList.add("active"), 1200);
+  setTimeout(() => s3.classList.add("active"), 2000);
+
+} else {
+  summaryText.innerText = "No donation data found. Please submit again.";
+}
+
+</script>
+
+</body>
+</html>

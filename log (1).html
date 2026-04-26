@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NourishNet</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+body{
+  font-family:'Inter',sans-serif;
+  background:#F7F5F0;
+}
+
+.card, .card *{
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+
+.card{
+  background:white;
+  border-radius:16px;
+  padding:28px;
+  margin-bottom:22px;
+  border:1px solid #e5e7eb;
+}
+
+.btn{
+  padding:10px 16px;
+  border-radius:999px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.high{background:#ef4444;color:white;}
+.medium{background:#f59e0b;color:white;}
+.low{background:#10b981;color:white;}
+
+.title{font-size:22px;font-weight:800;}
+.small{font-size:14px;color:#6b7280;}
+.big{font-size:16px;}
+
+.card div{
+  line-height:1.5;
+}
+
+.recipient-card {
+  border: 1px solid #e5e7eb;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.recipient-card:hover {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16,185,129,0.25);
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+ <nav class="flex justify-between items-center px-10 py-5 bg-emerald-600 text-white">
+
+  <a href="log.html" class="text-2xl font-extrabold">
+    NourishNet
+  </a>
+
+  <div class="hidden md:flex gap-10 font-medium items-center">
+
+    <a href="dashboard.html">Dashboard</a>
+    <a href="impact.html" class="hover:opacity-80">Impact</a>
+    <a href="leaderboard.html" class="hover:opacity-80">Leaderboard</a>
+
+    <a href="index.html" class="bg-white text-emerald-600 px-4 py-1 rounded-full font-semibold">
+      Logout
+    </a>
+
+  </div>
+
+</nav>
+
+<!-- INPUT -->
+<div class="card">
+
+<h2 class="title">Food Input</h2>
+
+<label>Food Type</label>
+<select id="foodType" class="w-full border p-3 rounded-lg mt-2 mb-3">
+  <option>Cooked</option>
+  <option>Baked</option>
+  <option>Vegetarian</option>
+  <option>Non-Vegetarian</option>
+  <option>Raw Ingredients</option>
+</select>
+
+<label>Name / Food Label</label>
+<input id="foodName"
+class="w-full border p-3 rounded-lg mt-2 mb-3"
+placeholder="e.g. biryani, sandwich, raw ingredients">
+
+<label>Portions: <span id="pval">50</span></label>
+<input type="range" min="1" max="250" value="50" id="portions" class="w-full">
+
+<label>Expiry</label>
+<select id="expiry" class="w-full border p-3 rounded-lg mt-2">
+  <option>2-4 hours</option>
+  <option>4-6 hours</option>
+  <option>6-8 hours</option>
+  <option>8-10 hours</option>
+  <option>10-12 hours</option>
+  <option>24 hours</option>
+  <option>48 hours</option>
+</select>
+
+</div>
+
+<!-- AI -->
+<div class="card">
+
+<h2 class="title">AI Recommendations</h2>
+
+<div id="aiBox">Click Ask AI</div>
+
+<button onclick="runAI()" class="mt-3 bg-emerald-600 text-white px-5 py-2 rounded-full">
+Ask AI
+</button>
+
+</div>
+
+<!-- MATCHED -->
+<div class="card">
+
+<h2 class="title">Matched Recipients</h2>
+
+<div id="matchedBox">No matches yet</div>
+
+</div>
+
+<!-- CONFIRM -->
+<div class="text-center">
+<button onclick="confirmDonation()"
+class="bg-emerald-600 text-white px-8 py-3 rounded-full font-bold">
+Confirm Donation
+</button>
+</div>
+
+</div>
+  
+ 
+
+<script>
+
+let current=[], accepted=[];
+const API="https://Infinity-1995-NourishAI.hf.space/analyze";
+
+/* slider */
+document.getElementById("portions").oninput=e=>{
+document.getElementById("pval").innerText=e.target.value;
+};
+
+/* AI */
+async function runAI(){
+
+const res=await fetch(API,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+meals:portions.value,
+foodType:foodType.value,
+foodName:foodName.value,
+expiry:expiry.value,
+seed:Date.now()
+})
+});
+
+current=await res.json();
+renderAI();
+}
+
+/* AI LIST */
+function renderAI(){
+
+aiBox.innerHTML=current.map((x,i)=>`
+<div class="recipient-card">
+
+<div class="font-bold text-lg mb-1">${x.recipient}</div>
+<div class="small mb-2">${x.km} km</div>
+<div class="mb-3">${x.reason}</div>
+
+<span class="btn ${
+x.priority=="High"?"high":
+x.priority=="Medium"?"medium":"low"
+}" style="display:inline-block;margin-bottom:16px;">
+${x.priority}
+</span>
+
+<div class="flex gap-3 flex-wrap">
+
+<button class="btn"
+style="background:#10b981;color:white"
+onclick="accept(${i})">
+Accept
+</button>
+
+<button class="btn"
+style="background:#ef4444;color:white"
+onclick="rejectAI(${i})">
+Reject
+</button>
+
+</div>
+
+</div>
+`).join("");
+}
+
+/* accept */
+function accept(i){
+accepted.push(current[i]);
+current.splice(i,1);
+renderAI();
+renderAccepted();
+}
+
+/* reject */
+function rejectAI(i){
+current.splice(i,1);
+renderAI();
+}
+
+/* matched */
+function renderAccepted(){
+
+matchedBox.innerHTML=accepted.length?
+accepted.map((a,i)=>`
+<div class="recipient-card" style="display:flex;justify-content:space-between;align-items:center;">
+
+<div>
+<div class="font-bold mb-1">${a.recipient}</div>
+<div class="small">${a.km} km</div>
+</div>
+
+<button class="btn"
+style="background:#ef4444;color:white"
+onclick="remove(${i})">
+Reject
+</button>
+
+</div>
+`).join("")
+:"No matches yet";
+}
+
+/* remove matched */
+function remove(i){
+accepted.splice(i,1);
+renderAccepted();
+}
+
+/* CHANGED: also save portions, foodType, foodName */
+function confirmDonation(){
+if(accepted.length==0){
+alert("Select recipients");
+return;
+}
+localStorage.setItem("donationData", JSON.stringify({
+  accepted,
+  portions: document.getElementById("portions").value,
+  foodType: document.getElementById("foodType").value,
+  foodName: document.getElementById("foodName").value
+}));
+location.href="confirmation.html";
+}
+
+</script>
+  <div id="footer"></div>
+
+<script>
+fetch("footer.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+  });
+</script>
+
+</body>
+</html>

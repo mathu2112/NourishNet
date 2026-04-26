@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Impact - NourishNet</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+  <script src="supabase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #F7F5F0;
+}
+
+.card {
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+}
+.card:hover {
+  transform: translateY(-6px);
+  border: 1px solid #10b981;
+  box-shadow: 0 20px 30px rgba(0,0,0,0.08);
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="flex justify-between items-center px-10 py-5 bg-emerald-600 text-white">
+  <a href="dashboard.html" class="text-2xl font-extrabold">NourishNet</a>
+
+  <div class="hidden md:flex gap-10 font-medium items-center">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="impact.html">Impact</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="index.html" class="bg-white text-emerald-600 px-4 py-1 rounded-full font-semibold">Logout</a>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<section class="px-10 py-10">
+  <h1 class="text-4xl font-extrabold">Your Impact</h1>
+  <p class="text-gray-600 mt-2 text-lg">
+    See how your donations are making a difference
+  </p>
+</section>
+
+<!-- METRICS -->
+<section class="grid md:grid-cols-4 gap-6 px-10">
+
+  <div class="card bg-white p-6 rounded-xl text-center">
+    <p class="text-3xl font-bold text-emerald-600">1,240</p>
+    <p class="text-gray-600 mt-2">Meals saved</p>
+  </div>
+
+  <div class="card bg-white p-6 rounded-xl text-center">
+    <p class="text-3xl font-bold text-emerald-600">2.8</p>
+    <p class="text-gray-600 mt-2">CO₂ saved (tons)</p>
+  </div>
+
+  <div class="card bg-white p-6 rounded-xl text-center">
+    <p class="text-3xl font-bold text-emerald-600">DHS 1,920</p>
+    <p class="text-gray-600 mt-2">Disposal costs avoided</p>
+  </div>
+
+  <div class="card bg-white p-6 rounded-xl text-center">
+    <p class="text-3xl font-bold text-emerald-600">85</p>
+    <p class="text-gray-600 mt-2">Donations made</p>
+  </div>
+
+</section>
+
+<!-- DISTRIBUTION -->
+<section class="px-10 mt-12">
+
+  <div class="card bg-white p-8 rounded-xl">
+
+    <h2 class="text-2xl font-bold mb-6">Distribution Breakdown</h2>
+
+    <!-- Elderly -->
+    <div class="mb-5">
+      <p class="font-semibold">Elderly Homes (40%)</p>
+      <div class="w-full bg-gray-200 h-3 rounded-full mt-2">
+        <div class="bg-emerald-600 h-3 rounded-full" style="width:40%"></div>
+      </div>
+    </div>
+
+    <!-- Refugee -->
+    <div class="mb-5">
+      <p class="font-semibold">Refugee Centers (35%)</p>
+      <div class="w-full bg-gray-200 h-3 rounded-full mt-2">
+        <div class="bg-emerald-600 h-3 rounded-full" style="width:35%"></div>
+      </div>
+    </div>
+
+    <!-- Low income -->
+    <div>
+      <p class="font-semibold">Low-Income Families (25%)</p>
+      <div class="w-full bg-gray-200 h-3 rounded-full mt-2">
+        <div class="bg-emerald-600 h-3 rounded-full" style="width:25%"></div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- IMPACT MESSAGE -->
+<section class="px-10 mt-10">
+
+  <div class="card bg-white p-8 rounded-xl">
+
+    <h2 class="text-2xl font-bold">Latest Impact Message</h2>
+
+    <p class="text-gray-700 mt-4 text-lg leading-relaxed">
+      "Your recent contribution helped deliver fresh meals to people in need while reducing food waste in the community. Every donation continues to support families, shelters, and care centers across the UAE."
+    </p>
+
+  </div>
+
+</section>
+
+<!-- BADGES -->
+<section class="px-10 mt-12 mb-12">
+
+  <h2 class="text-2xl font-bold mb-6">Your Badges</h2>
+
+  <div class="grid md:grid-cols-3 gap-6">
+
+    <!-- Earned -->
+    <div class="card bg-white p-6 rounded-xl text-center">
+      <p class="text-4xl">🥇</p>
+      <p class="font-semibold mt-2">Gold Contributor</p>
+      <p class="text-gray-600 text-sm mt-1">150+ meals donated</p>
+    </div>
+
+    <!-- Earned -->
+    <div class="card bg-white p-6 rounded-xl text-center">
+      <p class="text-4xl">🔥</p>
+      <p class="font-semibold mt-2">7-Day Streak</p>
+      <p class="text-gray-600 text-sm mt-1">Consistent donations</p>
+    </div>
+
+    <!-- Locked -->
+    <div class="card bg-gray-100 p-6 rounded-xl text-center opacity-70">
+      <p class="text-4xl">💎</p>
+      <p class="font-semibold mt-2">Platinum Hero</p>
+      <p class="text-gray-600 text-sm mt-1">300+ meals needed</p>
+    </div>
+
+  </div>
+
+</section>
+<div id="footer"></div>
+
+<script>
+fetch("footer.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+  });
+</script>
+
+</body>
+</html>

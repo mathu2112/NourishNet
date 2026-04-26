@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Leaderboard - NourishNet</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+  <script src="supabase.js"></script>
+<script src="auth.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #F7F5F0;
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="flex justify-between items-center px-10 py-5 bg-emerald-600 text-white">
+  <a href="dashboard.html" class="text-2xl font-extrabold">NourishNet</a>
+
+  <div class="hidden md:flex gap-10 font-medium items-center">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="impact.html">Impact</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="index.html" class="bg-white text-emerald-600 px-4 py-1 rounded-full font-semibold">Logout</a>
+  </div>
+</nav>
+
+<!-- MAIN SECTION -->
+<section class="px-10 py-8">
+
+  <!-- HEADER -->
+  <div class="flex items-center gap-3 mb-6">
+    <span class="text-2xl">🏆</span>
+    <h1 class="text-3xl font-extrabold">Leaderboard</h1>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="flex gap-3 mb-6">
+    <button class="bg-emerald-600 text-white px-4 py-1 rounded-full font-semibold">Dubai</button>
+    <button class="bg-gray-200 px-4 py-1 rounded-full">Sharjah</button>
+    <button class="bg-gray-200 px-4 py-1 rounded-full">Abu Dhabi</button>
+  </div>
+
+  <!-- LEADERBOARD CARD -->
+  <div class="bg-white rounded-2xl border shadow-sm overflow-hidden">
+
+    <div class="divide-y">
+
+      <!-- JS WILL REPLACE THIS -->
+      <div class="flex justify-between items-center px-6 py-4">
+        <div>
+          <p class="font-semibold">Loading...</p>
+          <p class="text-sm text-gray-500">Please wait</p>
+        </div>
+        <p class="font-bold text-lg">#</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="bg-white rounded-2xl border shadow-sm p-6 mt-8">
+
+    <h2 class="font-bold text-lg mb-2">Your progress</h2>
+
+    <p class="text-sm text-gray-600 mb-4">
+      You need <span class="text-emerald-600 font-semibold">155 more meals</span> to reach Platinum.
+    </p>
+
+    <div class="w-full bg-gray-200 h-3 rounded-full overflow-hidden">
+      <div class="bg-emerald-600 h-3" style="width: 92%"></div>
+    </div>
+
+    <div class="flex justify-between text-xs text-gray-500 mt-2">
+      <span>1845 meals</span>
+      <span>2000 (Platinum)</span>
+    </div>
+
+  </div>
+
+  <!-- BADGES -->
+  <div class="bg-white rounded-2xl border shadow-sm p-6 mt-8">
+
+    <h2 class="font-bold text-lg mb-4">Badge tiers</h2>
+
+    <div class="flex justify-between text-center">
+
+      <div>
+        <p class="text-2xl">🥉</p>
+        <p class="font-semibold">Bronze</p>
+        <p class="text-xs text-gray-500">100+</p>
+      </div>
+
+      <div>
+        <p class="text-2xl">🥈</p>
+        <p class="font-semibold">Silver</p>
+        <p class="text-xs text-gray-500">500+</p>
+      </div>
+
+      <div>
+        <p class="text-2xl">🥇</p>
+        <p class="font-semibold">Gold</p>
+        <p class="text-xs text-gray-500">1500+</p>
+      </div>
+
+      <div>
+        <p class="text-2xl">💎</p>
+        <p class="font-semibold">Platinum</p>
+        <p class="text-xs text-gray-500">3000+</p>
+      </div>
+
+      <div>
+        <p class="text-2xl">🏆</p>
+        <p class="font-semibold">Champion</p>
+        <p class="text-xs text-gray-500">5000+</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<div id="footer"></div>
+
+<script>
+fetch("footer.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("footer").innerHTML = data;
+  });
+</script>
+
+<script>
+const data = {
+  dubai: [
+    { name: "Nusret Steakhouse", meals: 3240, tier: "Platinum", rank: 1 },
+    { name: "Tresind Studio", meals: 2180, tier: "Platinum", rank: 2 },
+    { name: "Al Safadi Restaurant", meals: 1845, tier: "Gold", rank: 3, you: true },
+    { name: "Arabian Tea House", meals: 1520, tier: "Gold", rank: 4 },
+    { name: "Bu Qtair", meals: 1100, tier: "Silver", rank: 5 }
+  ],
+
+  sharjah: [
+    { name: "Al Fanar Sharjah", meals: 2100, tier: "Platinum", rank: 1 },
+    { name: "Sadaf Restaurant", meals: 1800, tier: "Gold", rank: 2 },
+    { name: "Shabab Al Khan", meals: 1400, tier: "Gold", rank: 3 },
+    { name: "Arabian Grill", meals: 900, tier: "Silver", rank: 4 },
+    { name: "Desert Bites", meals: 600, tier: "Silver", rank: 5 }
+  ],
+
+  abudhabi: [
+    { name: "Emirates Palace Dining", meals: 3500, tier: "Platinum", rank: 1 },
+    { name: "Li Beirut", meals: 2600, tier: "Platinum", rank: 2 },
+    { name: "Al Dhafra Restaurant", meals: 1900, tier: "Gold", rank: 3 },
+    { name: "Corniche Kitchen", meals: 1200, tier: "Silver", rank: 4 },
+    { name: "Yas Eats", meals: 800, tier: "Silver", rank: 5 }
+  ]
+};
+
+function render(city) {
+  const container = document.querySelector(".divide-y");
+  container.innerHTML = "";
+
+  data[city].forEach(item => {
+    container.innerHTML += `
+      <div class="flex justify-between items-center px-6 py-4 ${item.you ? 'bg-emerald-50' : ''}">
+        <div>
+          <p class="font-semibold">
+            ${item.name} ${item.you ? '<span class="text-emerald-600 text-sm">(You)</span>' : ''}
+          </p>
+          <p class="text-sm text-gray-500">${item.meals} meals · ${item.tier}</p>
+        </div>
+        <p class="font-bold text-lg">#${item.rank}</p>
+      </div>
+    `;
+  });
+}
+
+// button switching
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    buttons.forEach(b => {
+      b.className = "bg-gray-200 px-4 py-1 rounded-full";
+    });
+
+    btn.className = "bg-emerald-600 text-white px-4 py-1 rounded-full font-semibold";
+
+    let city = btn.innerText.toLowerCase().replace(" ", "");
+    render(city);
+  });
+});
+
+// default load
+render("dubai");
+</script>
+
+</body>
+</html>
