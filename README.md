@@ -4,11 +4,16 @@ NourishNet is an AI-powered food redistribution platform that helps reduce food 
 
 The platform ensures that usable food is redirected efficiently instead of being wasted, creating both social and environmental impact.
 
+
+
+
  **Problem Statement**
 
 Food waste is a major issue globally and in the UAE, where large amounts of safe, edible food are discarded daily from restaurants and businesses.
 
 At the same time, many communities and individuals still face food insecurity.
+
+
 
 **The main challenges include:**
 
@@ -16,6 +21,9 @@ Lack of a structured system to redistribute surplus food
 Poor coordination between food providers and recipients
 Delays in communication leading to food spoilage
 Missed opportunities to convert waste into social impact
+
+
+
  **Solution**
 
 NourishNet solves this by creating a smart digital platform that connects food providers directly with recipients.
@@ -27,12 +35,16 @@ Impact is measured through meals saved and contributions made
 
 This ensures faster, smarter, and more efficient food redistribution.
 
+
+
  **Tech Stack**
 Frontend: HTML, CSS, Tailwind CSS, JavaScript
 Backend: Python, Flask
 Hosting: Hugging Face Spaces
 Logic: Rule-based smart matching system (AI-inspired allocation logic)
 Data: Demo / sample dataset for prototype simulation
+
+
 
  **Key Features**
  
@@ -55,6 +67,8 @@ Displays total meals saved, environmental impact, and contribution statistics.
 **Gamification**
 
 Includes badges, donation streaks, and a leaderboard to encourage participation.
+
+
 
 🌍 **Vision**
 
